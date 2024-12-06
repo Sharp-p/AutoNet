@@ -4,6 +4,8 @@
 #include "distance.h"
 
 void main(){
+  long begin;
+  
   if (gpioInitialise() < 0)
   {
     perror("[ERROR]Couldn't initialize GPIO interface.");
@@ -16,9 +18,15 @@ void main(){
 
   // Sends a 10us pulse to the TRIG
   gpioTrigger(TRIG, 10, 1);
+  begin = timespec_get();
 
+  gpioSetAlertFunc(ECHO, stopTimer());
 
 
   gpioTerminate();
   
+}
+
+long stopTimer() {
+
 }
