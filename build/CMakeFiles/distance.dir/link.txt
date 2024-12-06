@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/distance.dir/src/distance.c.o -o distance  -lpthread -lpigpio -lrt 

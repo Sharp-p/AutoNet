@@ -1,11 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pigpio.h>
+#include <inttypes.h>
 #include "distance.h"
 
 void main(){
-  long begin;
-  
+  uint32_t startT;
+
   if (gpioInitialise() < 0)
   {
     perror("[ERROR]Couldn't initialize GPIO interface.");
@@ -18,15 +19,23 @@ void main(){
 
   // Sends a 10us pulse to the TRIG
   gpioTrigger(TRIG, 10, 1);
-  begin = timespec_get();
+  startT = gpioTick();
 
-  gpioSetAlertFunc(ECHO, stopTimer());
-
+  gpioSetAlertFuncEx(ECHO, flightTime, &startT);
 
   gpioTerminate();
-  
 }
 
-long stopTimer() {
 
+void* flightTime(int gpio, int level, uint32_t tick, uint32_t *startT) {
+  uint32_t time = 0;
+
+  if (*startT < tick) {
+    time = tick - *startT;
+    printf("Tempo di volo: " PRIu32 "\n", time);
+  }
+  else {
+    time = (4294967295 - *startT) + tick;
+    printf("Tempo di volo: " PRIu32 "\n", time);
+  }
 }
