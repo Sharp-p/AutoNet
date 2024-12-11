@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/thomas/Documents/Università/Tirocinio/AutoNet/build",
+  "command": "/usr/bin/cc   -g -std=gnu17 -Wall -o CMakeFiles/distance.dir/src/distance.c.o -c /home/thomas/Documents/Università/Tirocinio/AutoNet/src/distance.c",
+  "file": "/home/thomas/Documents/Università/Tirocinio/AutoNet/src/distance.c",
+  "output": "CMakeFiles/distance.dir/src/distance.c.o"
+}
+]
