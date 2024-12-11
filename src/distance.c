@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include <pigpio.h>
 #include <inttypes.h>
 #include "distance.h"
@@ -9,7 +10,7 @@ int main(){
 
   uint32_t times[2];
 
-  uint32_t start;
+  struct timespec start;
 
   if (gpioInitialise() < 0)
   {
@@ -40,12 +41,13 @@ void flightTime(int gpio, int level, uint32_t tick, void *userData) {
   //uint32_t * times = *((uint32_t**)userData);
   /* startT = *((uint32_t*)userData); */
   /* printf("%d\n %d\n", startT, tick); */
-  uint32_t start = *((uint32_t * )userData);
+  struct timespec start = *((struct timespec * )userData);
+  
 
   if (level == 1){
     //times[0] = tick;
-    start = tick;
-   /*  if (startT < tick) {
+    clock_gettime(CLOCK_MONOTONIC, &start);   
+  /*  if (startT < tick) {
       time = tick - startT;
       printf("Tempo di volo: %d\n", time);
     }
@@ -55,6 +57,9 @@ void flightTime(int gpio, int level, uint32_t tick, void *userData) {
     } */
   } else {
     //times[1] = tick;
-    printf("Delta: %d\n", tick - start);
+    struct timespec end;
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    printf("%ld.%ld", end.tv_sec - start.tv_sec, end.tv_nsec-start.tv_nsec);
+    
   }
 }
