@@ -35,7 +35,7 @@ int main(){
 void flightTime(int gpio, int level, uint32_t tick, void *userData) {
   uint32_t time = 0;
   uint32_t startT = 0;
-  uint32_t * times = *((uint32_t**)userData);
+  //uint32_t * times = *((uint32_t**)userData);
   startT = *((uint32_t*)userData);
   printf("%d\n %d\n", startT, tick);
 
