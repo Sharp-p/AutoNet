@@ -59,7 +59,7 @@ void flightTime(int gpio, int level, uint32_t tick, void *userData) {
     //times[1] = tick;
     struct timespec end;
     clock_gettime(CLOCK_MONOTONIC, &end);
-    printf("%ld.%ld", end.tv_sec - start.tv_sec, end.tv_nsec-start.tv_nsec);
+    printf("%ld.%ld\n", end.tv_sec - start.tv_sec, end.tv_nsec-start.tv_nsec);
     
   }
 }
