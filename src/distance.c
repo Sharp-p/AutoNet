@@ -11,6 +11,7 @@ int main(){
   uint32_t times[2];
 
   struct timespec start;
+  clock_gettime(CLOCK_MONOTONIC, &start);
 
   if (gpioInitialise() < 0)
   {
