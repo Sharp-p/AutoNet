@@ -7,6 +7,8 @@
 
 #include <netManager.h>
 
+// thomas gay
+
 int main()
 {
     struct timespec start;
