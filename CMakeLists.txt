@@ -15,7 +15,7 @@ find_package(Threads REQUIRED)
 
 add_executable(AutoNet src/distance.c)
 
-target_include_directories(AutoNet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
+target_include_directories(AutoNet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(AutoNet PRIVATE Threads::Threads pigpio BNetShared)
 
