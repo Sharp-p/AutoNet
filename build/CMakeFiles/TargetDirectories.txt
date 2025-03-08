@@ -1,3 +1,0 @@
-/home/tommy/Documents/AutoNet/build/CMakeFiles/distance.dir
-/home/tommy/Documents/AutoNet/build/CMakeFiles/edit_cache.dir
-/home/tommy/Documents/AutoNet/build/CMakeFiles/rebuild_cache.dir
