@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 17)
 
 add_compile_definitions(Debug)
 add_compile_options(-Wall)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/BNet)
+#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/BNet)
 
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
