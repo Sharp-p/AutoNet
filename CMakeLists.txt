@@ -1,11 +1,22 @@
 cmake_minimum_required(VERSION 3.12)
-
 project(AutoNet)
 
 set(CMAKE_C_STANDARD 17)
 
+
+add_compile_definitions(Debug)
 add_compile_options(-Wall)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/BNet)
 
-add_executable(distance src/distance.c)
 
-target_link_libraries(distance PRIVATE pthread pigpio rt)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
+
+add_executable(AutoNet src/distance.c)
+
+target_include_directories(AutoNet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
+
+target_link_libraries(AutoNet PRIVATE Threads::Threads pigpio BNetShared)
+
+set_target_properties(AutoNet PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
