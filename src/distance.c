@@ -7,7 +7,7 @@
 
 #include <netManager.h>
 
-int main()
+int test()
 {
     struct timespec start;
     clock_gettime(CLOCK_MONOTONIC, &start);
