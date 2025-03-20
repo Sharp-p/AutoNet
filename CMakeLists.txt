@@ -14,7 +14,8 @@ find_package(Threads REQUIRED)
 
 
 add_executable(AutoNet src/distance.c
-        src/main.c)
+        src/main.c
+        src/networkMan.c)
 
 target_include_directories(AutoNet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

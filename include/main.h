@@ -5,5 +5,7 @@
 #pragma once
 
 #include <stdlib.h>
-#include <netManager.h>
 #include "logger.h"
+
+int init();
+int initBNet();
