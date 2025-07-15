@@ -9,7 +9,6 @@
 
 void callback(PacketType_t type, size_t size, const u_char *data, void *usrData)
 {
-    // D_Print("IMPLEMENT THIS CALLBACK!\n");
     logD(stdout, "IMPLEMENT THIS CALLBACK!\n");
 }
 

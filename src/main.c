@@ -3,13 +3,15 @@
 //
 
 #include "main.h"
+
+#include <logger.h>
 #include <networkMan.h>
 #include <stdlib.h>
 
 
 int init()
 {
-    // D_Print("Initializing BNet...\n");
+    logD(stdout, "Initializing BNet...\n");
     if (initBNet())
         return EXIT_FAILURE;
 
@@ -19,7 +21,7 @@ int init()
 int main()
 {
 #ifdef Debug
-    // D_Print("Launched in Debug Mode!\n");
+    logD(stdout, "Launched in Debug Mode!\n");
 #endif
 
     //TODO: init di BNet
