@@ -5,7 +5,6 @@
 #include <inttypes.h>
 #include "distance.h"
 
-#include <netManager.h>
 
 int test()
 {

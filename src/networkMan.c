@@ -3,17 +3,21 @@
 //
 
 #include "networkMan.h"
+#include <BNet.h>
+#include <stdlib.h>
+#include <logger.h>
 
-void callback(PacketType_t type, size_t size, u_char *data)
+void callback(PacketType_t type, size_t size, const u_char *data, void *usrData)
 {
-    D_Print("IMPLEMENT THIS CALLBACK!\n");
+    // D_Print("IMPLEMENT THIS CALLBACK!\n");
+    logD(stdout, "IMPLEMENT THIS CALLBACK!\n");
 }
 
 int initBNet()
 {
-    if (initPcap())
+    if (initPcap(stderr, stdout))
         return EXIT_FAILURE;
-    setCallback(callback);
+    setCallback(callback, NULL);
     if (createHandle("wlan1"))
         return EXIT_FAILURE;
     if (activateHandle())

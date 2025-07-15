@@ -4,9 +4,6 @@
 
 #pragma once
 
-#include <BNet.h>
-#include "logger.h"
-
 int initBNet();
 void cleanBNet();
 

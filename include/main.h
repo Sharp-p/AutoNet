@@ -4,8 +4,4 @@
 
 #pragma once
 
-#include <stdlib.h>
-#include "logger.h"
 
-int init();
-int initBNet();

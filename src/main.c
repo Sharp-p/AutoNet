@@ -3,11 +3,13 @@
 //
 
 #include "main.h"
+#include <networkMan.h>
+#include <stdlib.h>
 
 
 int init()
 {
-    D_Print("Initializing BNet...\n");
+    // D_Print("Initializing BNet...\n");
     if (initBNet())
         return EXIT_FAILURE;
 
@@ -17,12 +19,12 @@ int init()
 int main()
 {
 #ifdef Debug
-    D_Print("Launched in Debug Mode!\n");
+    // D_Print("Launched in Debug Mode!\n");
 #endif
 
     //TODO: init di BNet
     //TODO: conteggio nodi
-    //TODO: init protocollo Heartbeat
+    //TODO: init failure detector
     //TODO: stabilire ordine (leader election?ID?)
     //TODO: init di Distance con l'ordine di inizio
     //TODO: init di Ultra wideband con l'ordine di inizio
