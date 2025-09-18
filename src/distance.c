@@ -27,12 +27,14 @@ int main (int argc, char *argv[])
     printf("GPIO %d level is: %d\n", ECHO, gpioRead(ECHO));
     // Sends a 10us pulse to the TRIG
     int i = 0;
+    const uint32_t rotationT = gpioTick();
     // TODO: handle the end and start of the program in a better way (it should end after a 360° turn)
-    while (i++ < 1000000)
+    // ends execution after ROTATION_TIME seconds
+    while (gpioTick() - rotationT < 2000000)
     {
-	//gpioWrite(TRIG, 0);
-	//gpioSleep(PI_TIME_RELATIVE, 0, 2);
-	// gpioWrite(ECHO, 0);
+	printf("Dif time: %d\n", gpioTick() - rotationT);
+	gpioWrite(TRIG, 0);
+
 	printf("Valore TRIG: %d\n", gpioRead(TRIG));
 	printf("Valore ECHO: %d\n", gpioRead(ECHO));
         // sends an impulse on the TRIG
@@ -40,13 +42,8 @@ int main (int argc, char *argv[])
 		printf("Trigger error\n");
 		break;
 	}
-	//gpioWrite(TRIG, 1);
-	//gpioSleep(PI_TIME_RELATIVE, 0, 10);
-	//gpioWrite(TRIG, 0);
+	
 
-
-	printf("Valore TRIG: %d\n", gpioRead(TRIG));
-	printf("Valore ECHO: %d\n", gpioRead(ECHO));
         // waits that it sends the 8 cycle ultrasonic burst
         while (gpioRead(ECHO) == 0)
         {
@@ -69,13 +66,10 @@ int main (int argc, char *argv[])
 		// printf("Timeout raggiunto\n");
 		continue; 
 	}
-	printf("Post timeout\n");
         const uint32_t pulseT = endT - startT;
 
         const float distance = (float) ((float) pulseT / 2 * 0.034);
-        /*gpioSetAlertFuncEx(ECHO, flightTime, &start);*/
-        /*gpioSleep(PI_TIME_RELATIVE, 3, 0);*/
-
+        
         printf("Tempo di volo: %duS\nDistanza: %f\n", pulseT, distance);
         gpioSleep(PI_TIME_RELATIVE, 0, 60000);
     }
