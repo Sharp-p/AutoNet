@@ -12,10 +12,10 @@
 int init()
 {
 //    logD(stdout, "Initializing BNet...\n");
-    if (initBNet())
-        return EXIT_FAILURE;
-
-    return EXIT_SUCCESS;
+    // if (initBNet())
+    //     return EXIT_FAILURE;
+    //
+    // return EXIT_SUCCESS;
 }
 
 int main()
