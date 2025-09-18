@@ -6,7 +6,7 @@
 #include "distance.h"
 
 
-int test()
+int main (int argc, char *argv[])
 {
     struct timespec start;
     clock_gettime(CLOCK_MONOTONIC, &start);
@@ -25,13 +25,16 @@ int test()
     printf("GPIO %d level is: %d\n", ECHO, gpioRead(ECHO));
     // Sends a 10us pulse to the TRIG
     int i = 0;
+    // TODO: handle the end and start of the program in a better way (it should end after a 360° turn)
     while (i++ < 1000000)
     {
+        // sends an impulse on the TRIG
         gpioTrigger(TRIG, 10, 1);
 
+        // waits that it receives the impulse back
         while (gpioRead(ECHO) == 0)
-        {
-        }
+        {}
+        // measures the time it receives the signal for
         const uint32_t startT = gpioTick();
         while (gpioRead(ECHO) == 1)
         {
@@ -49,33 +52,3 @@ int test()
     }
     gpioTerminate();
 }
-
-//
-// void flightTime(int gpio, int level, uint32_t tick, void *userData) {
-//   uint32_t time = 0;
-//  uint32_t startT = 0;
-//   //uint32_t * times = *((uint32_t**)userData);
-//  startT = *((uint32_t*)userData);
-//  printf("%d\n %d\n", startT, tick);
-//   struct timespec start = *((struct timespec * )userData);
-//
-//
-//   if (level == 1){
-//     //times[0] = tick;
-//     clock_gettime(CLOCK_MONOTONIC, &start);
-//     if (startT < tick) {
-//       time = tick - startT;
-//       printf("Tempo di volo: %d\n", time);
-//     }
-//     else {
-//       time = (4294967295 - startT) + tick;
-//       printf("Tempo di volo else: %d\n", time);
-//     }
-//   } else {
-//     //times[1] = tick;
-//     struct timespec end;
-//     clock_gettime(CLOCK_MONOTONIC, &end);
-//     printf("%ld.%ld\n", end.tv_sec - start.tv_sec, end.tv_nsec-start.tv_nsec);
-//
-//   }
-// }
