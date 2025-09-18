@@ -6,7 +6,10 @@
 
 //#include <logger.h>
 #include <networkMan.h>
+#include <stdio.h>
 #include <stdlib.h>
+
+#include "distance.h"
 
 
 int init()
@@ -31,9 +34,16 @@ int main()
     //TODO: init di Distance con l'ordine di inizio
     //TODO: init di Ultra wideband con l'ordine di inizio
 
-    if (init())
-        return EXIT_FAILURE;
+    // if (init())
+    //     return EXIT_FAILURE;
 
+    int len;
+    float* distances = flightTime(&len);
+
+    for (int i = 0; i < len; i++)
+    {
+        printf("Distance %d: %f", i, distances[i]);
+    }
 
     return EXIT_SUCCESS;
 }

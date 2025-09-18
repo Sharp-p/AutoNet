@@ -8,12 +8,13 @@
 
 
 
-int main (int argc, char *argv[])
-{
-    struct timespec start;
-    clock_gettime(CLOCK_MONOTONIC, &start);
 
-    if (gpioInitialise() < 0)
+float* flightTime(int* len)
+{
+	Node* head = NULL;
+	Node* tail = NULL;
+
+	if (gpioInitialise() < 0)
     {
         perror("[ERROR]Couldn't initialize GPIO interface.");
         exit(1);
@@ -26,52 +27,83 @@ int main (int argc, char *argv[])
 
     printf("GPIO %d level is: %d\n", ECHO, gpioRead(ECHO));
     // Sends a 10us pulse to the TRIG
-    int i = 0;
     const uint32_t rotationT = gpioTick();
     // TODO: handle the end and start of the program in a better way (it should end after a 360° turn)
     // ends execution after ROTATION_TIME seconds
-    while (gpioTick() - rotationT < 2000000)
+    while (gpioTick() - rotationT < ROTATION_TIME * 10E+6)
     {
-	printf("Dif time: %d\n", gpioTick() - rotationT);
-	gpioWrite(TRIG, 0);
+		gpioWrite(TRIG, 0);
 
-	printf("Valore TRIG: %d\n", gpioRead(TRIG));
-	printf("Valore ECHO: %d\n", gpioRead(ECHO));
-        // sends an impulse on the TRIG
-        if (gpioTrigger(TRIG, 10, 1)) {
-		printf("Trigger error\n");
-		break;
-	}
-	
+		printf("Valore TRIG: %d\n", gpioRead(TRIG));
+		printf("Valore ECHO: %d\n", gpioRead(ECHO));
+	        // sends an impulse on the TRIG
+	        if (gpioTrigger(TRIG, 10, 1)) {
+			printf("Trigger error\n");
+			break;
+		}
 
         // waits that it sends the 8 cycle ultrasonic burst
         while (gpioRead(ECHO) == 0)
         {
-		printf("Pin ECHO \(%d\) is LOW\n", ECHO);
-	}
-	printf("Burst sent, starting measurment\n");
-        // measures the time it receives the signal for
-        const uint32_t startT = gpioTick();
-        uint32_t endT = gpioTick();
-	bool timeout = false;
-	while (gpioRead(ECHO) == 1)
-        {
-		if (endT - startT > 12080) { 
-			timeout = true;
-			break;
+			printf(R"(Pin ECHO (%d) is LOW)", ECHO);
 		}
-		endT = gpioTick();
+		printf("Burst sent, starting measurment\n");
+	        // measures the time it receives the signal for
+	        const uint32_t startT = gpioTick();
+	        uint32_t endT = gpioTick();
+		bool timeout = false;
+		while (gpioRead(ECHO) == 1)
+        {
+			if (endT - startT > 12080) {
+				timeout = true;
+				break;
+			}
+			endT = gpioTick();
         }
-	if (timeout) {
-		// printf("Timeout raggiunto\n");
-		continue; 
-	}
+		if (timeout) {
+			// printf("Timeout raggiunto\n");
+			continue;
+		}
         const uint32_t pulseT = endT - startT;
 
         const float distance = (float) ((float) pulseT / 2 * 0.034);
-        
-        printf("Tempo di volo: %duS\nDistanza: %f\n", pulseT, distance);
+
+    	Node* temp = malloc(sizeof(Node));
+    	if (!temp) {
+    		perror("[ERROR]Couldn't allocate memory for node.");
+    		exit(1);
+    	}
+    	temp->val = distance;
+    	temp->next = NULL;
+
+    	if (tail) {
+    		tail->next = temp;
+    	} else {
+    		head = temp;
+    	}
+    	tail = temp;
+    	(*len)++;
+
+        //printf("Tempo di volo: %duS\nDistanza: %f\n", pulseT, distance);
         gpioSleep(PI_TIME_RELATIVE, 0, 60000);
     }
     gpioTerminate();
+
+	// creation of the array
+	float* measures = malloc((*len) * sizeof(float));
+	if (!measures) {
+		perror("[ERROR]Couldn't allocate memory for measures");
+		exit(1);
+	}
+
+	// population of the array and deallocation of the linked list
+	Node* curr = head;
+	for (int i = 0; i < *len; i++) {
+		measures[i] = curr->val;
+		Node* temp = curr;
+		curr = curr->next;
+		free(temp);
+	}
+
+	return measures;
 }
