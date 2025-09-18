@@ -4,6 +4,8 @@
 #include <pigpio.h>
 #include <inttypes.h>
 #include "distance.h"
+#include <stdbool.h>
+
 
 
 int main (int argc, char *argv[])
@@ -28,19 +30,46 @@ int main (int argc, char *argv[])
     // TODO: handle the end and start of the program in a better way (it should end after a 360° turn)
     while (i++ < 1000000)
     {
+	//gpioWrite(TRIG, 0);
+	//gpioSleep(PI_TIME_RELATIVE, 0, 2);
+	// gpioWrite(ECHO, 0);
+	printf("Valore TRIG: %d\n", gpioRead(TRIG));
+	printf("Valore ECHO: %d\n", gpioRead(ECHO));
         // sends an impulse on the TRIG
-        gpioTrigger(TRIG, 10, 1);
+        if (gpioTrigger(TRIG, 10, 1)) {
+		printf("Trigger error\n");
+		break;
+	}
+	//gpioWrite(TRIG, 1);
+	//gpioSleep(PI_TIME_RELATIVE, 0, 10);
+	//gpioWrite(TRIG, 0);
 
-        // waits that it receives the impulse back
+
+	printf("Valore TRIG: %d\n", gpioRead(TRIG));
+	printf("Valore ECHO: %d\n", gpioRead(ECHO));
+        // waits that it sends the 8 cycle ultrasonic burst
         while (gpioRead(ECHO) == 0)
-        {}
+        {
+		printf("Pin ECHO \(%d\) is LOW\n", ECHO);
+	}
+	printf("Burst sent, starting measurment\n");
         // measures the time it receives the signal for
         const uint32_t startT = gpioTick();
-        while (gpioRead(ECHO) == 1)
+        uint32_t endT = gpioTick();
+	bool timeout = false;
+	while (gpioRead(ECHO) == 1)
         {
+		if (endT - startT > 12080) { 
+			timeout = true;
+			break;
+		}
+		endT = gpioTick();
         }
-        const uint32_t endT = gpioTick();
-
+	if (timeout) {
+		// printf("Timeout raggiunto\n");
+		continue; 
+	}
+	printf("Post timeout\n");
         const uint32_t pulseT = endT - startT;
 
         const float distance = (float) ((float) pulseT / 2 * 0.034);
