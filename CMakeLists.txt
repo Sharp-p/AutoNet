@@ -23,6 +23,8 @@ add_executable(distanceSensor
 
 set_target_properties(distanceSensor PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
+target_include_directories(distanceSensor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 target_include_directories(AutoNet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(AutoNet PRIVATE Threads::Threads)
