@@ -35,8 +35,8 @@ float* flightTime(int* len)
 		gpioWrite(TRIG, 0);
 		gpioDelay(5);
 
-		printf("Valore TRIG: %d\n", gpioRead(TRIG));
-		printf("Valore ECHO: %d\n", gpioRead(ECHO));
+		//printf("Valore TRIG: %d\n", gpioRead(TRIG));
+		//printf("Valore ECHO: %d\n", gpioRead(ECHO));
 	        // sends an impulse on the TRIG
 	    if (gpioTrigger(TRIG, 10, 1)) {
 			printf("Trigger error\n");
@@ -56,7 +56,7 @@ float* flightTime(int* len)
 				break;
 			}
 			endT = gpioTick();
-			printf("Pin ECHO (%d) is LOW\n", ECHO);
+			//printf("Pin ECHO (%d) is LOW\n", ECHO);
 		}
 		if (timeout) {
 			printf("Timeout raggiunto\n");
@@ -72,7 +72,7 @@ float* flightTime(int* len)
 		
 		while (gpioRead(ECHO) == 1)
         {
-			printf("Pin ECHO (%d) is HIGH\n", ECHO);
+			//printf("Pin ECHO (%d) is HIGH\n", ECHO);
 			if (endT - startT > MAX_MEAS_US) {
 				timeout = true;
 				break;

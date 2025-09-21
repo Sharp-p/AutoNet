@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <plplot/plplot.h>
+#include <time.h>
 #include "distance.h"
 
 
@@ -45,24 +46,40 @@ int main()
         printf("Distance %d: %f\n", i, distances[i]);
     }
 
-    PLFLT x[len], y[len];
-    PLFLT xmin = 0., xmax = 360., ymin = 0., ymax = 450.;
+//    PLFLT x[len], y[len];
+//    PLFLT xmin = 0., xmax = 360., ymin = 0., ymax = 450.;
+//
+//    float rate = 360 / len;
+//
+//    for (int i = 0; i < len; i++) {
+//        x[i] = (PLFLT) rate * i;
+//        y[i] = (PLFLT) distances[i];
+//    }
 
-    float rate = 360 / len;
+    // driver to save in PNG
+    //plsdev("pngcairo");
+    
+    //char filename[256];
 
-    for (int i = 0; i < len; i++) {
-        x[i] = (PLFLT) rate * i;
-        y[i] = (PLFLT) distances[i];
-    }
+    //time_t t = time(NULL);
+    //struct tm tm = *localtime(&t);
 
-    plinit();
+    //snprintf(filename, sizeof(filename), "distance_%04d%02d%02d_%02d%02d%02d.png",
+            //tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+            //tm.tm_hour,tm.tm_min, tm.tm_sec);
 
-    plenv(xmin, xmax, ymin, ymax, 0, 0);
-    pllab("Gradi", "Distanza", "Prova mappatura distanze");
+    //plsfnam(filename);
 
-    plline(len, x, y);
+    //plinit();
 
-    plend();
+    //plenv(xmin, xmax, ymin, ymax, 0, 0);
+    //pllab("Gradi", "Distanza", "Prova mappatura distanze");
+
+    //plline(len, x, y);
+
+    //plend();
+
+    free(distances);
 
     return EXIT_SUCCESS;
 }
