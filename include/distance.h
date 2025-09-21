@@ -3,7 +3,8 @@
 
 #define TRIG 25
 #define ECHO 27
-#define ROTATION_TIME 20
+#define ROTATION_TIME 25
+#define MAX_MEAS_US 36000
 
 float* flightTime(int* len);
 

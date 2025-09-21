@@ -32,7 +32,6 @@ float* flightTime(int* len)
     // ends execution after ROTATION_TIME seconds
     while (gpioTick() - rotationT < ROTATION_TIME * 1000000)
     {
-		
 		gpioWrite(TRIG, 0);
 		gpioDelay(5);
 
@@ -43,29 +42,38 @@ float* flightTime(int* len)
 			printf("Trigger error\n");
 			break;
 		}
+	
+		// time variable for timeouts and measurements
+		uint32_t startT = gpioTick();
+		uint32_t endT = gpioTick();
+		bool timeout = false;
 
-		printf("Valore TRIG: %d\n", gpioRead(TRIG));
-		printf("Valore ECHO: %d\n", gpioRead(ECHO));
-	//	gpioDelay(10);
-		
-		printf("Valore TRIG: %d\n", gpioRead(TRIG));
-		printf("Valore ECHO: %d\n", gpioRead(ECHO));
-        
-		//bool timeout = false;
 		// waits that it sends the 8 cycle ultrasonic burst
-        while (gpioRead(ECHO) == 0)
+		while (gpioRead(ECHO) == 0)
         {
+			if (endT - startT > MAX_MEAS_US) {
+				timeout = true;
+				break;
+			}
+			endT = gpioTick();
 			printf("Pin ECHO (%d) is LOW\n", ECHO);
 		}
+		if (timeout) {
+			printf("Timeout raggiunto\n");
+			continue;
+		}
+
 		printf("Burst sent, starting measurment\n");
-	        // measures the time it receives the signal for
-	        const uint32_t startT = gpioTick();
-	        uint32_t endT = gpioTick();
-		bool timeout = false;
+	    
+		// measures the time it receives the signal for
+	    startT = gpioTick();
+	    endT = gpioTick();
+		timeout = false;
+		
 		while (gpioRead(ECHO) == 1)
         {
 			printf("Pin ECHO (%d) is HIGH\n", ECHO);
-			if (endT - startT > 12080) {
+			if (endT - startT > MAX_MEAS_US) {
 				timeout = true;
 				break;
 			}
@@ -75,6 +83,7 @@ float* flightTime(int* len)
 			printf("Timeout raggiunto\n");
 			continue;
 		}
+
         const uint32_t pulseT = endT - startT;
 
         const float distance = (float) ((float) pulseT / 2 * 0.034);
