@@ -3,7 +3,7 @@
 
 #define TRIG 25
 #define ECHO 27
-#define ROTATION_TIME 2
+#define ROTATION_TIME 20
 
 float* flightTime(int* len);
 

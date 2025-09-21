@@ -42,7 +42,7 @@ int main()
 
     for (int i = 0; i < len; i++)
     {
-        printf("Distance %d: %f", i, distances[i]);
+        printf("Distance %d: %f\n", i, distances[i]);
     }
 
     return EXIT_SUCCESS;
