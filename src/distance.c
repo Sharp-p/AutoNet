@@ -79,14 +79,17 @@ float* flightTime(int* len)
 			}
 			endT = gpioTick();
         }
+
+		float distance;
 		if (timeout) {
 			printf("[WARNING]Timeout on ECHO's falling edge.\n");
-			continue;
+			distance = -1;
 		}
+		else {
+        	const uint32_t pulseT = endT - startT;
 
-        const uint32_t pulseT = endT - startT;
-
-        const float distance = (float) ((float) pulseT / 2 * 0.034);
+        	distance = (float) ((float) pulseT / 2 * 0.034);
+		}
 
     	Node* temp = malloc(sizeof(Node));
     	if (!temp) {
@@ -113,7 +116,7 @@ float* flightTime(int* len)
 	// creation of the array
 	float* measures = malloc((*len) * sizeof(float));
 	if (!measures) {
-		perror("[ERROR]Couldn't allocate memory for measurements.");
+		perror("[ERROR]Couldn't allocate memory for measures.");
 		exit(1);
 	}
 
@@ -124,7 +127,6 @@ float* flightTime(int* len)
 		Node* temp = curr;
 		curr = curr->next;
 		free(temp);
-		
 	}
 	
 	return measures;

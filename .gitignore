@@ -4,3 +4,4 @@ cmake-build-debug-remote
 build
 .idea
 bin
+.png
