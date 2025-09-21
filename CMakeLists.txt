@@ -41,7 +41,9 @@ add_compile_options(-Wall -pthread -lpigpio -lrt)
 #add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/BNet)
 
 find_package(Threads REQUIRED)
+find_package(PkgConfig REQUIRED)
 
+pkg_check_modules(PLPLOT REQUIRED plplot)
 
 add_executable(AutoNet
         src/main.c
@@ -50,9 +52,9 @@ add_executable(AutoNet
         src/ultrawb.c
         src/distance.c)
 
-target_include_directories(AutoNet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(AutoNet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${PLPLOT_INCLUDE_DIRS})
 
-target_link_libraries(AutoNet PRIVATE Threads::Threads pigpio)
+target_link_libraries(AutoNet PRIVATE Threads::Threads pigpio ${PLPLOT_LIBRARIES})
 
 set_target_properties(AutoNet PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 

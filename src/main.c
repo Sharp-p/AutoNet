@@ -8,7 +8,7 @@
 #include <networkMan.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <plplot/plplot.h>
 #include "distance.h"
 
 
@@ -44,6 +44,25 @@ int main()
     {
         printf("Distance %d: %f\n", i, distances[i]);
     }
+
+    PLFLT x[len], y[len];
+    PLFLT xmin = 0., xmax = 360., ymin = 0., ymax = 450.;
+
+    float rate = 360 / len;
+
+    for (int i = 0; i < len; i++) {
+        x[i] = (PLFLT) rate * i;
+        y[i] = (PLFLT) distances[i];
+    }
+
+    plinit();
+
+    plenv(xmin, xmax, ymin, ymax, 0, 0);
+    pllab("Gradi", "Distanza", "Prova mappatura distanze");
+
+    plline(len, x, y);
+
+    plend();
 
     return EXIT_SUCCESS;
 }
