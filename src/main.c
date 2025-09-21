@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include <plplot/plplot.h>
 #include <time.h>
+#include <unistd.h>
+#include <libgen.h>
+#include <string.h>
 #include "distance.h"
 
 
@@ -59,15 +62,15 @@ int main()
 
     // driver to save in PNG
     plsdev("pngcairo");
-    
-    char filename[256];
 
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
 
-    snprintf(filename, sizeof(filename), "distance_%04d%02d%02d_%02d%02d%02d.png",
-            tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
-            tm.tm_hour,tm.tm_min, tm.tm_sec);
+    char filename[1024];
+        
+    snprintf(filename, sizeof(filename), "%s/plots/distance_%04d%02d%02d_%02d%02d%02d.png",
+            PROJECT_DIR, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+            tm.tm_hour, tm.tm_min, tm.tm_sec);
 
     plsfnam(filename);
 

@@ -36,7 +36,9 @@ find_package_handle_standard_args(pigpio
         pigpio_INCLUDE_DIR pigpio_LIBRARY pigpiod_if_LIBRARY pigpiod_if2_LIBRARY)
 
 
-add_compile_definitions(Debug)
+add_compile_definitions(
+        Debug 
+        PROJECT_DIR="${CMAKE_SOURCE_DIR}")
 add_compile_options(-Wall -pthread -lpigpio -lrt)
 #add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/BNet)
 
