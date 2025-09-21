@@ -59,11 +59,11 @@ float* flightTime(int* len)
 			//printf("Pin ECHO (%d) is LOW\n", ECHO);
 		}
 		if (timeout) {
-			printf("Timeout raggiunto\n");
+			printf("[WARNING]Timeout on ECHO's rising edge.\n");
 			continue;
 		}
 
-		printf("Burst sent, starting measurment\n");
+		//printf("Burst sent, starting measurment\n");
 	    
 		// measures the time it receives the signal for
 	    startT = gpioTick();
@@ -80,7 +80,7 @@ float* flightTime(int* len)
 			endT = gpioTick();
         }
 		if (timeout) {
-			printf("Timeout raggiunto\n");
+			printf("[WARNING]Timeout on ECHO's falling edge.\n");
 			continue;
 		}
 
@@ -102,6 +102,7 @@ float* flightTime(int* len)
     		head = temp;
     	}
     	tail = temp;
+		printf("[INFO]Measurement %d complete!\n", *len + 1);
     	(*len)++;
 
         //printf("Tempo di volo: %duS\nDistanza: %f\n", pulseT, distance);
@@ -112,7 +113,7 @@ float* flightTime(int* len)
 	// creation of the array
 	float* measures = malloc((*len) * sizeof(float));
 	if (!measures) {
-		perror("[ERROR]Couldn't allocate memory for measures");
+		perror("[ERROR]Couldn't allocate memory for measurements.");
 		exit(1);
 	}
 
@@ -123,7 +124,8 @@ float* flightTime(int* len)
 		Node* temp = curr;
 		curr = curr->next;
 		free(temp);
+		
 	}
-
+	
 	return measures;
 }
