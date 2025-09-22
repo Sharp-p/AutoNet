@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <libgen.h>
 #include <string.h>
+#include <math.h>
 #include "distance.h"
 
 
@@ -118,9 +119,9 @@ int main()
         perror("Errore apertura CSV");
     }
     else {
-        fprintf(fp, "angolo,distanza\n"); // header
+        fprintf(fp, "angolo,distanza,x,y\n"); // header
         for (int j = 0; j < len; j++) {
-            fprintf(fp, "%.2f,%.2f\n", x[j], y[j]);
+            fprintf(fp, "%.2f,%.2f\n", x[j], y[j], y[j] * cos(x[j]), y[j] * sin(x[j]));
         }
         fclose(fp);
     }
