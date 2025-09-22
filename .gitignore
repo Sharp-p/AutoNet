@@ -4,4 +4,5 @@ cmake-build-debug-remote
 build
 .idea
 bin
-plots/*.png
+data/plots/*.png
+data/csv/*.csv
