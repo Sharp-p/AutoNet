@@ -121,7 +121,8 @@ int main()
     else {
         fprintf(fp, "angolo,distanza,x,y\n"); // header
         for (int j = 0; j < len; j++) {
-            fprintf(fp, "%.2f,%.2f,%.2f,%.2f\n", x[j], y[j], y[j] * cos(x[j]), y[j] * sin(x[j]));
+            float rad = x[j] * M_PI / 180.;
+            fprintf(fp, "%.2f,%.2f,%.2f,%.2f\n", x[j], y[j], y[j] * cos(rad), y[j] * sin(rad));
         }
         fclose(fp);
     }

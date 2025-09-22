@@ -56,7 +56,7 @@ add_executable(AutoNet
 
 target_include_directories(AutoNet PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${PLPLOT_INCLUDE_DIRS})
 
-target_link_libraries(AutoNet PRIVATE Threads::Threads pigpio ${PLPLOT_LIBRARIES})
+target_link_libraries(AutoNet PRIVATE Threads::Threads pigpio ${PLPLOT_LIBRARIES} m)
 
 set_target_properties(AutoNet PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
