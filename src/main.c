@@ -50,46 +50,21 @@ int main()
         printf("Distance %d: %f\n", i, distances[i]);
     }
 
-    // PLOTTING
-
     PLFLT x[len], y[len];
     PLFLT xmin = 0., xmax = 360., ymin = 0., ymax = 450.;
 
-    
-    Node* head = NULL;
-    Node* tail = NULL;
-    //bool accepting = true;
 
     const float rate = 360. / len;
-    int valids = 0;
+    
     for (int i = 0; i < len; i++) {
-       // Node* temp = malloc(sizeof(Node));
-       // if (!temp) {
-       //     perror("[ERROR]Couldn't allocate memory for the node.");
-       //     exit(1);
-       // }
-       // temp->next = NULL;
-
-       // if (tail) {
-       //     tail->next = temp;
-       // }
-       // else {
-       //     head = temp;
-       // }
-       // tail = temp;
-
-       // if(distances[i] == -1) { 
-       //     if (accepting) {
-       //         temp->val
-       //     } 
-       // }
         x[i] = (PLFLT) rate * (i+1);
         y[i] = (PLFLT) distances[i];
         
-        //valids++;
 
         printf("Sto riempendo. i = %d - valids = %d, gradi = %f, distanza = %f\n", i, valids, x[i], y[i]);
     }
+    
+    // PLOTTING
 
     // driver to save in PNG
     plsdev("pngcairo");
@@ -130,9 +105,6 @@ int main()
             plstring(segment_len, &x[start], &y[start], "•");
         }
     }
-
-    //plstring(valids, x, y, "•");
-    //plline(valids, x, y);
 
     plend();
 
