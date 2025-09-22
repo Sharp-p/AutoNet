@@ -61,7 +61,7 @@ int main()
         y[i] = (PLFLT) distances[i];
         
 
-        printf("Sto riempendo. i = %d - valids = %d, gradi = %f, distanza = %f\n", i, valids, x[i], y[i]);
+        printf("Sto riempendo. i = %d, gradi = %f, distanza = %f\n", i, x[i], y[i]);
     }
     
     // PLOTTING
@@ -75,7 +75,7 @@ int main()
     // creating path in which to save plot
     char filename[1024];
     
-    snprintf(filename, sizeof(filename), "%s/plots/distance_%04d%02d%02d_%02d%02d%02d.png",
+    snprintf(filename, sizeof(filename), "%s/data/plots/distance_%04d%02d%02d_%02d%02d%02d.png",
             PROJECT_DIR, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
             tm.tm_hour, tm.tm_min, tm.tm_sec);
 
@@ -108,7 +108,22 @@ int main()
 
     plend();
 
-    // TODO: salvare i dati in csv
+    char csvfile[1024];
+    snprintf(csvfile, sizeof(csvfile), "%s/data/csv/distance_%04d%02d%02d_%02d%02d%02d.csv",
+            PROJECT_DIR, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+            tm.tm_hour, tm.tm_min, tm.tm_sec);
+
+    FILE* fp = fopen(csvfile, "w");
+    if (!fp) {
+        perror("Errore apertura CSV");
+    }
+    else {
+        fprintf(fp, "angolo,distanza\n"); // header
+        for (int j = 0; j < len; j++) {
+            fprintf(fp, "%.2f,%.2f\n", x[j], y[j]);
+        }
+        fclose(fp);
+    }
 
     free(distances);
 
