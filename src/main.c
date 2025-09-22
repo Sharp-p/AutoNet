@@ -90,7 +90,7 @@ int main()
 
     plenv(xmin, xmax, ymin, ymax, 0 ,0);
     plsfont(PL_FCI_SERIF, PL_FCI_ITALIC, PL_FCI_MEDIUM);
-    pllab("Gradi (°)", "Distanza (cm)", "Prova mappatura distanze");
+    pllab("Rotazione (°)", "Distanza (cm)", "Prova mappatura distanze");
     
     int i = 0;
     while (i < len) {
