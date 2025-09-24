@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     float rate;
 
     if (sliding) {
-        rate = (float)ROTATION_TIME / (float)len;
+        rate = (float)MEASUREMENT_TIME / (float)len;
     }
     else {
         rate = 360.f / (float)len;

@@ -29,8 +29,8 @@ float* flightTime(int* len)
     // Sends a 10us pulse to the TRIG
     const uint32_t rotationT = gpioTick();
     // TODO: handle the end and start of the program in a better way (it should end after a 360° turn)
-    // ends execution after ROTATION_TIME seconds
-    while (gpioTick() - rotationT < ROTATION_TIME * 1000000)
+    // ends execution after MEASUREMENT_TIME seconds
+    while (gpioTick() - rotationT < MEASUREMENT_TIME * 1000000)
     {
 		gpioWrite(TRIG, 0);
 		gpioDelay(5);
