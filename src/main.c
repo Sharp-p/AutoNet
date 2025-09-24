@@ -14,6 +14,8 @@
 #include <libgen.h>
 #include <string.h>
 #include <math.h>
+#include <stdbool.h>
+
 #include "distance.h"
 
 
@@ -26,7 +28,7 @@ int init()
     // return EXIT_SUCCESS;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 #ifdef Debug
 //    logD(stdout, "Launched in Debug Mode!\n");
@@ -42,6 +44,14 @@ int main()
     // if (init())
     //     return EXIT_FAILURE;
 
+    bool sliding = false;
+
+    if (argc > 1) {
+        if (strcmp(argv[1], "-s") == 0) {
+            sliding = true;
+        }
+    }
+
     // DO NOT forget initialization
     int len = 0;
     float* distances = flightTime(&len);
@@ -51,18 +61,32 @@ int main()
         printf("Distance %d: %f\n", i, distances[i]);
     }
 
+
     PLFLT x[len], y[len];
     PLFLT xmin = 0., xmax = 360., ymin = 0., ymax = 450.;
 
 
-    const float rate = 360. / len;
-    
+    float rate;
+
+    if (sliding) {
+        rate = (float)ROTATION_TIME / (float)len;
+    }
+    else {
+        rate = 360.f / (float)len;
+    }
+
+
     for (int i = 0; i < len; i++) {
         x[i] = (PLFLT) rate * (i+1);
         y[i] = (PLFLT) distances[i];
         
 
-        printf("Sto riempendo. i = %d, gradi = %f, distanza = %f\n", i, x[i], y[i]);
+        if (sliding) {
+            printf("Sto riempendo. i = %d,  secondi= %f, distanza = %f\n", i, x[i], y[i]);
+        }
+        else {
+            printf("Sto riempendo. i = %d, gradi = %f, distanza = %f\n", i, x[i], y[i]);
+        }
     }
     
     // PLOTTING
@@ -91,8 +115,13 @@ int main()
 
     plenv(xmin, xmax, ymin, ymax, 0 ,0);
     plsfont(PL_FCI_SERIF, PL_FCI_ITALIC, PL_FCI_MEDIUM);
-    pllab("Rotazione (°)", "Distanza (cm)", "Prova mappatura distanze");
-    
+    if (sliding) {
+        pllab("Tempo (s)", "Distanza (cm)", "Prova mappatura distanze");
+    }
+    else {
+        pllab("Rotazione (°)", "Distanza (cm)", "Prova mappatura distanze");
+    }
+
     int i = 0;
     while (i < len) {
         while (i < len && y[i] < 0) i++;
@@ -119,10 +148,18 @@ int main()
         perror("Errore apertura CSV");
     }
     else {
-        fprintf(fp, "angolo,distanza,x,y\n"); // header
-        for (int j = 0; j < len; j++) {
-            float rad = x[j] * M_PI / 180.;
-            fprintf(fp, "%.2f,%.2f,%.2f,%.2f\n", x[j], y[j], y[j] * cos(rad), y[j] * sin(rad));
+        if (sliding) {
+            fprintf(fp, "s,distanza\n");
+            for (int j = 0; j < len; j++) {
+                fprintf(fp, "%.2f,%.2f\n", x[j], y[j]);
+            }
+        }
+        else {
+            fprintf(fp, "angolo,distanza,x,y\n"); // header
+            for (int j = 0; j < len; j++) {
+                float rad = x[j] * M_PI / 180.;
+                fprintf(fp, "%.2f,%.2f,%.2f,%.2f\n", x[j], y[j], y[j] * cos(rad), y[j] * sin(rad));
+            }
         }
         fclose(fp);
     }
