@@ -4,6 +4,8 @@
 #include <pigpio.h>
 #include <inttypes.h>
 #include "distance.h"
+
+#include <math.h>
 #include <stdbool.h>
 
 
@@ -26,11 +28,15 @@ float* flightTime(int* len)
     gpioSetMode(TRIG, PI_OUTPUT);
 
     printf("GPIO %d level is: %d\n", ECHO, gpioRead(ECHO));
-    // Sends a 10us pulse to the TRIG
-    const uint32_t rotationT = gpioTick();
+
+	bool started = false;
+	uint32_t rotationT = 0;
+	float last_valid = -1;
     // TODO: handle the end and start of the program in a better way (it should end after a 360° turn)
-    // ends execution after MEASUREMENT_TIME seconds
-    while (gpioTick() - rotationT < MEASUREMENT_TIME * 1000000)
+
+	// TODO: starts saving measurements after it notice there is a change in measured value
+	// ends execution after MEASUREMENT_TIME seconds
+    while (1)
     {
 		gpioWrite(TRIG, 0);
 		gpioDelay(5);
@@ -90,6 +96,27 @@ float* flightTime(int* len)
 
         	distance = (float) ((float) pulseT / 2 * 0.034);
 		}
+
+    	// check if it should start the timer
+		if (!started) {
+			if (last_valid > 0 && distance > 0 && fabsf(distance - last_valid) > CHANGE_THRESHOLD) {
+				started = true;
+				rotationT = gpioTick();
+				printf("[INFO]Movement detected, starting measurements.");
+			}
+			last_valid = distance;
+		}
+
+    	// check if it should skip the saving of the data
+    	if (!started) {
+    		gpioSleep(PI_TIME_RELATIVE, 0, 60000);
+    		continue;
+    	}
+
+    	// ends if it reached the time limit
+    	if (gpioTick() - rotationT < MEASUREMENT_TIME * 1000000) {
+    		break;
+    	}
 
     	Node* temp = malloc(sizeof(Node));
     	if (!temp) {
