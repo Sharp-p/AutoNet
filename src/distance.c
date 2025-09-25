@@ -96,13 +96,14 @@ float* flightTime(int* len)
 
         	distance = (float) ((float) pulseT / 2 * 0.034);
 		}
+		printf("Distance: %f\n", distance);
 
     	// check if it should start the timer
 		if (!started) {
 			if (last_valid > 0 && distance > 0 && fabsf(distance - last_valid) > CHANGE_THRESHOLD) {
 				started = true;
 				rotationT = gpioTick();
-				printf("[INFO]Movement detected, starting measurements.");
+				printf("[INFO]Movement detected, starting measurements.\n");
 			}
 			last_valid = distance;
 		}
@@ -114,7 +115,7 @@ float* flightTime(int* len)
     	}
 
     	// ends if it reached the time limit
-    	if (gpioTick() - rotationT < MEASUREMENT_TIME * 1000000) {
+    	if (gpioTick() - rotationT > MEASUREMENT_TIME * 1000000) {
     		break;
     	}
 
@@ -150,6 +151,7 @@ float* flightTime(int* len)
 	// population of the array and deallocation of the linked list
 	Node* curr = head;
 	for (int i = 0; i < *len; i++) {
+		printf("Filling array\n");
 		measures[i] = curr->val;
 		Node* temp = curr;
 		curr = curr->next;
