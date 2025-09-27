@@ -63,7 +63,11 @@ int main(int argc, char *argv[])
 
 
     PLFLT x[len], y[len];
-    PLFLT xmin = 0., xmax = 360., ymin = 0., ymax = 450.;
+
+    PLFLT xmin = 0., xmax = 360.;
+    if (sliding) { xmax = MEASUREMENT_TIME; }
+    PLFLT ymin = 0., ymax = 450.;
+
 
 
     float rate;
