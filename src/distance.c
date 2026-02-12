@@ -151,7 +151,7 @@ float* flightTime(int* len)
 	// population of the array and deallocation of the linked list
 	Node* curr = head;
 	for (int i = 0; i < *len; i++) {
-		printf("Filling array\n");
+		//printf("Filling array\n");
 		measures[i] = curr->val;
 		Node* temp = curr;
 		curr = curr->next;
