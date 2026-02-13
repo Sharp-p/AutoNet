@@ -3,6 +3,8 @@ cmake-build-debug-remote
 .vscode
 build
 .idea
-bin
-data/plots/*.png
-data/csv/*.csv
+# rplidar_ros is cloned from https://github.com/Slamtec/rplidar_ros
+src/rplidar_ros
+build/
+install/
+log/
