@@ -22,22 +22,36 @@ class LidarCsvRecorder : public rclcpp::Node
 public:
     LidarCsvRecorder() : Node("lidar_csv_recorder")
     {
+        fs::path home_path = std::getenv("HOME");
+        fs::path default_path = home_path / "lidar_data";
+
+        this->declare_parameter("output_directory", default_path.string());
         // creating file name
-        std::string p = __FILE__;
-        std::string dir;
-        const size_t last_slash_idx = p.rfind(fs::path::preferred_separator);
-        if (std::string::npos != last_slash_idx)
+        std::string save_dir_str = this->get_parameter("output_directory").as_string();
+        fs::path base_path(save_dir_str);
+
+        // trying to create save directory (if it does not exists)
+        try
         {
-            dir = p.substr(0, last_slash_idx);
+            if (!fs::exists(base_path))
+            {
+                fs::create_directories(base_path);
+                RCLCPP_INFO(this->get_logger(), "Created directory: %s", base_path.c_str());
+            }
+        } catch (const fs::filesystem_error& e)
+        {
+            RCLCPP_ERROR(this->get_logger(),
+                "Critical error during the creation of directory: %s", e.what());
+            return;
         }
+
         auto now = std::chrono::system_clock::now();
         std::time_t now_time = std::chrono::system_clock::to_time_t(now);
         std::stringstream ss;
         ss << "lidar_scan" << std::put_time(std::localtime(&now_time), "%Y%m%d_%H%M%S") << ".csv";
-        filename_ = dir + fs::path::preferred_separator + ".."
-            + fs::path::preferred_separator + "data" + fs::path::preferred_separator + ss.str();
+        fs::path full_path = base_path / ss.str();
 
-        RCLCPP_INFO(this->get_logger(), ".csv file path: %s", filename_.c_str());
+        filename_ = full_path.string();
 
         csv_file_.open(filename_);
         if (!csv_file_.is_open())
