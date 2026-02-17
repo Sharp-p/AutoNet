@@ -88,11 +88,11 @@ private:
 
         // writing database
         csv_file_ << sec << "," << nanosec << ","
-            << msg->angle_min << "," << msg->angle_increment;
+            << msg->angle_min << "," << msg->angle_increment << ",";
 
         for (float range : msg->ranges)
         {
-            csv_file_ << "," << range;
+            csv_file_ << range << "_";
         }
 
         csv_file_ << "\n";
