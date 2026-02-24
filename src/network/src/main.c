@@ -31,9 +31,10 @@ int netBroadcast(const char *payload, const size_t len)
     }
 
     struct sockaddr_ll sa = {};
-    sa.sll_family  = AF_PACKET;
-    sa.sll_ifindex = ifr.ifr_ifindex;
-    sa.sll_halen   = ETH_ALEN;
+    sa.sll_family   = AF_PACKET;
+    sa.sll_ifindex  = ifr.ifr_ifindex;
+    sa.sll_protocol = htons(0x88B5);
+    sa.sll_halen    = ETH_ALEN;
     memcpy(sa.sll_addr, dst, 6);
 
     if (sendto(s, payload, len, 0, (struct sockaddr*)&sa, sizeof(sa)) < 0)
@@ -61,7 +62,6 @@ int netRecvLoop()
     const char *ifname = "wlan0";
     constexpr uint16_t proto = 0x88B5;
 
-    // SOCK_DGRAM: ricevi il "payload" (senza header Ethernet), filtrato per protocollo
     const int s = socket(AF_PACKET, SOCK_DGRAM, htons(proto));
     if (s < 0)
     {
