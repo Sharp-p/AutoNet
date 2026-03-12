@@ -7,11 +7,14 @@ set(CMAKE_C_FLAGS "-O3")
 
 add_definitions(-DMAX_ROUND=6)
 add_definitions(-DMAX_NEIGHBORS=6)
+add_definitions(-DQUEUE_SIZE=32)
+add_definitions(-DTIME_SLOT=100)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/netlib)
 
 add_executable(${PROJECT_NAME}
         src/main.c
+        src/netqueue.c
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
