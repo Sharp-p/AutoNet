@@ -10,7 +10,7 @@
 discovery_attr_t *attr = nullptr;
 discovery_prv_attr_t *prv_attr = nullptr;
 
-void *discovery_loop(void *a)
+void *discovery_loop(void *args)
 {
     return EXIT_SUCCESS;
 }
