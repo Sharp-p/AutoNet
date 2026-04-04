@@ -17,7 +17,7 @@ uint8_t thread_result;
 void (*callback)(uint8_t *, size_t) = nullptr;
 
 
-int netInit()
+int net_init()
 {
     s = socket(AF_PACKET, SOCK_DGRAM, htons(ETHERTYPE));
     if (s < 0)
@@ -44,13 +44,13 @@ int netInit()
     }
     return EXIT_SUCCESS;
 }
-void setCallback(void (*cb)(uint8_t *, size_t))
+void net_set_callback(void (*cb)(uint8_t *, size_t))
 {
     callback = cb;
 }
 
 
-int netSend(const char *payload, const size_t len, const uint8_t *addr)
+int net_send(const char *payload, const size_t len, const uint8_t *addr)
 {
     struct sockaddr_ll sa = {};
     sa.sll_halen = ETH_ALEN;
@@ -65,10 +65,10 @@ int netSend(const char *payload, const size_t len, const uint8_t *addr)
     close(s);
     return EXIT_SUCCESS;
 }
-int netBroadcast(const char *payload, const size_t len)
+int net_broadcast(const char *payload, const size_t len)
 {
     const uint8_t dst[6] = {0xff,0xff,0xff,0xff,0xff,0xff};
-    return netSend(payload, len, dst);
+    return net_send(payload, len, dst);
 }
 
 
@@ -103,7 +103,7 @@ void *netRecvLoop(void *args)
     return nullptr;
 }
 
-int netStartRecvLoop()
+int net_start_recv_loop()
 {
     printf("Listening on " INTERFACE_NAME " for EtherType 0x%04x ...\n", ETHERTYPE);
     stop = false;
@@ -117,7 +117,7 @@ int netStartRecvLoop()
 
     return EXIT_SUCCESS;
 }
-int netStopRecvLoop()
+int net_stop_recv_loop()
 {
     stop = true;
     pthread_join(recv_thread, nullptr);
@@ -126,10 +126,10 @@ int netStopRecvLoop()
 }
 
 
-void netDestroy()
+void net_destroy()
 {
     if (!stop)
-        netStopRecvLoop();
+        net_stop_recv_loop();
     close(s);
     s = 0;
     recv_thread = 0;
