@@ -1,0 +1,3 @@
+[submodule "autonet/third_party/rplidar_sdk"]
+	path = autonet/third_party/rplidar_sdk
+	url = https://github.com/slamtec/rplidar_sdk
