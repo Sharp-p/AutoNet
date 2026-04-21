@@ -27,7 +27,6 @@ typedef struct lidar_data_attr
     // TODO: lidar public attr
 } lidar_data_attr_t;
 
-
 #ifdef __cplusplus
 }
 #endif
