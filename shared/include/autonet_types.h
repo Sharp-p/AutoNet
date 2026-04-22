@@ -11,22 +11,22 @@ extern "C" {
 
 #include <stdint.h>
 
-typedef struct discovery_attr
+typedef struct ds_out
 {
     //TODO: i risultati
     uint64_t version;
-} discovery_attr_t;
-typedef struct clock_sync_attr
+} ds_out_t;
+typedef struct cs_out
 {
     //TODO: i risultati
     uint64_t version;
-}clock_sync_attr_t;
+}cs_out_t;
 
-typedef struct lidar_data_attr
+typedef struct ld_out
 {
-    // TODO: lidar public attr
+    // TODO: i risultati
     uint64_t version;
-} lidar_data_attr_t;
+} ld_out_t;
 
 #ifdef __cplusplus
 }

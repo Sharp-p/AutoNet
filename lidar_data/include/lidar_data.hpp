@@ -11,15 +11,15 @@
 extern "C" {
 #endif
 
-typedef struct lidar_data_prv_attr
+typedef struct ld_in
 {
 	pthread_mutex_t *net_mutex;
 	pthread_cond_t *net_cond;
 
     // TODO: lidar priv attr
-}lidar_data_prv_attr_t;
+}ld_in_t;
 
-int init_lidar_data(lidar_data_prv_attr_t *prv_attributes, lidar_data_attr_t *attributes);
+int init_lidar_data(ld_in_t *prv_attributes, ld_out_t *attributes);
 void destroy_lidar_data();
 
 #ifdef __cplusplus

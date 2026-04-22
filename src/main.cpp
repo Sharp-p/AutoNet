@@ -10,12 +10,12 @@
 
 typedef struct autonet_attr
 {
-    discovery_prv_attr_t discovery_prv_attr;
-    discovery_attr_t discovery_attr;
-    clock_sync_prv_attr_t clock_sync_prv_attr;
-    clock_sync_attr_t clock_sync_attr;
-	lidar_data_prv_attr_t lidar_data_prv_attr;
-	lidar_data_attr_t lidar_data_attr;
+    ds_in_t discovery_prv_attr;
+    ds_out_t discovery_attr;
+    cs_in_t clock_sync_prv_attr;
+    cs_out_t clock_sync_attr;
+	ld_in_t lidar_data_prv_attr;
+	ld_out_t lidar_data_attr;
 }autonet_attr_t;
 
 

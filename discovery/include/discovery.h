@@ -13,7 +13,7 @@ extern "C" {
 #include <stdint.h>
 #include <autonet_types.h>
 
-typedef struct discovery_prv_attr
+typedef struct ds_in
 {
     pthread_mutex_t *net_mutex;
     pthread_cond_t *net_cond;
@@ -23,9 +23,9 @@ typedef struct discovery_prv_attr
     uint8_t buffer_idx;
     pthread_t thread;
     bool stop;
-} discovery_prv_attr_t;
+} ds_in_t;
 
-int init_discovery(discovery_prv_attr_t *prv_attributes, discovery_attr_t *attributes);
+int init_discovery(ds_in_t *prv_attributes, ds_out_t *attributes);
 void destroy_discovery();
 
 #ifdef __cplusplus
