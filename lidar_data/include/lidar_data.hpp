@@ -13,13 +13,13 @@ extern "C" {
 
 typedef struct ld_in
 {
-	pthread_mutex_t *net_mutex;
-	pthread_cond_t *net_cond;
+	bool stop;
+    pthread_t thread;
 
     // TODO: lidar priv attr
 }ld_in_t;
 
-int init_lidar_data(ld_in_t *prv_attributes, ld_out_t *attributes);
+int init_lidar_data(ld_in_t *in, ld_out_t *out);
 void destroy_lidar_data();
 
 #ifdef __cplusplus

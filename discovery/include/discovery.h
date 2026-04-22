@@ -25,7 +25,7 @@ typedef struct ds_in
     bool stop;
 } ds_in_t;
 
-int init_discovery(ds_in_t *prv_attributes, ds_out_t *attributes);
+int init_discovery(ds_in_t *in, ds_out_t *out);
 void destroy_discovery();
 
 #ifdef __cplusplus

@@ -22,7 +22,7 @@ typedef struct cs_in
 } cs_in_t;
 
 
-int init_clock_sync(cs_in_t *priv_attributes, cs_out_t *attributes);
+int init_clock_sync(cs_in_t *in, cs_out_t *out);
 void destroy_clock_sync();
 
 

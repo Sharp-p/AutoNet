@@ -8,8 +8,8 @@
 #include <string.h>
 
 
-clock_sync_attr_t *attr = nullptr;
-clock_sync_prv_attr_t *prv_attr = nullptr;
+cs_out_t *cs_out = nullptr;
+cs_in_t *cs_in = nullptr;
 
 
 void *clock_sync_loop(void *args)
@@ -18,13 +18,13 @@ void *clock_sync_loop(void *args)
 }
 
 
-int init_clock_sync(clock_sync_prv_attr_t *priv_attributes, clock_sync_attr_t *attributes)
+int init_clock_sync(cs_in_t *in, cs_out_t *out)
 {
-    attr = attributes;
-    prv_attr = priv_attributes;
+    cs_out = out;
+    cs_in = in;
 
-    prv_attr->stop = false;
-    const int err = pthread_create(&prv_attr->thread, nullptr, clock_sync_loop, nullptr);
+    cs_in->stop = false;
+    const int err = pthread_create(&cs_in->thread, nullptr, clock_sync_loop, nullptr);
     if (err != 0)
     {
         fprintf(stderr, "pthread_create failed: %s\n", strerror(err));
@@ -35,6 +35,6 @@ int init_clock_sync(clock_sync_prv_attr_t *priv_attributes, clock_sync_attr_t *a
 }
 void destroy_clock_sync()
 {
-    prv_attr->stop = true;
-    pthread_join(prv_attr->thread, nullptr);
+    cs_in->stop = true;
+    pthread_join(cs_in->thread, nullptr);
 }

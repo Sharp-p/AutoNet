@@ -7,8 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 
-discovery_attr_t *attr = nullptr;
-discovery_prv_attr_t *prv_attr = nullptr;
+ds_out_t *ds_out = nullptr;
+ds_in_t *ds_in = nullptr;
 
 void *discovery_loop(void *args)
 {
@@ -16,15 +16,15 @@ void *discovery_loop(void *args)
 }
 
 
-int init_discovery(discovery_prv_attr_t *prv_attributes, discovery_attr_t *attributes)
+int init_discovery(ds_in_t *in, ds_out_t *out)
 {
-    attr = attributes;
-    prv_attr = prv_attributes;
+    ds_out = out;
+    ds_in = in;
 
-    prv_attr->buffer_idx = 0;
-    prv_attr->stop = false;
+    ds_in->buffer_idx = 0;
+    ds_in->stop = false;
 
-    const int err = pthread_create(&prv_attr->thread, nullptr, discovery_loop, nullptr);
+    const int err = pthread_create(&ds_in->thread, nullptr, discovery_loop, nullptr);
     if (err != 0)
     {
         fprintf(stderr, "pthread_create failed: %s\n", strerror(err));
@@ -35,6 +35,6 @@ int init_discovery(discovery_prv_attr_t *prv_attributes, discovery_attr_t *attri
 }
 void destroy_discovery()
 {
-    prv_attr->stop = true;
-    pthread_join(prv_attr->thread, nullptr);
+    ds_in->stop = true;
+    pthread_join(ds_in->thread, nullptr);
 }
