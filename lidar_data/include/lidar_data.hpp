@@ -4,19 +4,18 @@
 
 #pragma once
 
+#include <pthread.h>
+#include <autonet_types.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <pthread.h>
-
-typedef struct lidar_data_prv_attr
+typedef struct ld_in
 {
     // TODO: lidar priv attr
-	pthread_mutex_t *net_mutex;
-	pthread_cond_t *net_cond;
-	pthread_t thread;
 	bool stop;
+	pthread_t thread;
 
 	void *lidar_driver;
 	void *channel;
@@ -26,9 +25,9 @@ typedef struct lidar_data_prv_attr
 
 	bool is_connected;
 	bool is_motor_running;
-}lidar_data_prv_attr_t;
+}ld_in_t;
 
-int init_lidar_data(lidar_data_prv_attr_t *prv_attributes, lidar_data_t *attributes);
+int init_lidar_data(ld_in_t *in, ld_out_t *out);
 void destroy_lidar_data();
 
 #ifdef __cplusplus

@@ -12,17 +12,17 @@ extern "C" {
 #include <autonet_types.h>
 #include <pthread.h>
 
-typedef struct clock_sync_prv_attr
+typedef struct cs_in
 {
     pthread_mutex_t *net_mutex;
     pthread_cond_t *net_cond;
-    discovery_attr_t *disc_attr;
+    ds_out_t *disc_attr;
     pthread_t thread;
     bool stop;
-} clock_sync_prv_attr_t;
+} cs_in_t;
 
 
-int init_clock_sync(clock_sync_prv_attr_t *priv_attributes, clock_sync_attr_t *attributes);
+int init_clock_sync(cs_in_t *in, cs_out_t *out);
 void destroy_clock_sync();
 
 
