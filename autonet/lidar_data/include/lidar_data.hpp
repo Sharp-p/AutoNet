@@ -12,10 +12,20 @@ extern "C" {
 
 typedef struct lidar_data_prv_attr
 {
+    // TODO: lidar priv attr
 	pthread_mutex_t *net_mutex;
 	pthread_cond_t *net_cond;
+	pthread_t thread;
+	bool stop;
 
-    // TODO: lidar priv attr
+	void *lidar_driver;
+	void *channel;
+
+	void *raw_nodes_buffer;
+	size_t raw_nodes_count;
+
+	bool is_connected;
+	bool is_motor_running;
 }lidar_data_prv_attr_t;
 
 int init_lidar_data(lidar_data_prv_attr_t *prv_attributes, lidar_data_t *attributes);
