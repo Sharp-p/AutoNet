@@ -25,6 +25,7 @@ typedef struct clock_sync_attr
 typedef struct lidar_data_attr
 {
     // TODO: lidar public attr
+    uint64_t version;
 } lidar_data_attr_t;
 
 #ifdef __cplusplus

@@ -1,20 +1,19 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(discovery C)
+project(netlib C)
 
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_FLAGS "-O3")
 
 add_library(${PROJECT_NAME} SHARED
-        src/discovery.c)
+        src/netlib.c)
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC RECV_BUFFER_SIZE=16) #number of packets
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+        INTERFACE_NAME="wlan0"
+        ETHERTYPE=0x1234)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
         OUTPUT_NAME ${PROJECT_NAME})
-
 target_include_directories(
-        ${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE autonet_types)
+        ${PROJECT_NAME} PUBLIC include)

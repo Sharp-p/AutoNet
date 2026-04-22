@@ -4,6 +4,11 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 int net_init();
 void net_destroy();
 
@@ -14,3 +19,7 @@ int net_start_recv_loop();
 int net_stop_recv_loop();
 
 void net_set_callback(void (*cb)(uint8_t *, size_t));
+
+#ifdef __cplusplus
+}
+#endif

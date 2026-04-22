@@ -2,10 +2,11 @@
 // Created by f3m on 04/04/26.
 //
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <netlib.h>
 #include <discovery.h>
 #include <clock_sync.h>
+#include <lidar_data.hpp>
 
 typedef struct autonet_attr
 {
