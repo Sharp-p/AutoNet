@@ -13,7 +13,6 @@ extern "C" {
 
 typedef struct ld_in
 {
-    // TODO: lidar priv attr
 	bool stop;
 	pthread_t thread;
 
