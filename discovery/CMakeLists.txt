@@ -8,7 +8,9 @@ set(CMAKE_C_FLAGS "-O3")
 add_library(${PROJECT_NAME} SHARED
         src/discovery.c)
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC RECV_BUFFER_SIZE=16) #number of packets
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+        RECV_BUFFER_SIZE=16 # number of packets
+        DISCOVERY_NODE_ID=1ULL)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
